@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace IdentityServer.AuthServer.Consts
+﻿namespace IdentityServer.AuthServer.Consts
 {
     public static class Const
     {
