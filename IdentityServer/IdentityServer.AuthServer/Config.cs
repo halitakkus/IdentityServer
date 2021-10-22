@@ -15,11 +15,13 @@ namespace IdentityServer.AuthServer
             {
                 new ApiResource("resource_api1")
                 {
-                    Scopes = { Const.FirstApiWrite, Const.FirstApiRead, Const.FirstApiUpdate } 
+                    Scopes = { Const.FirstApiWrite, Const.FirstApiRead, Const.FirstApiUpdate } ,
+                    ApiSecrets = new []{new Secret("secretapi1".Sha256())}
                 },
                 new ApiResource("resource_api2")
                  {
-                    Scopes = { Const.SecondApiWrite, Const.SecondApiRead, Const.SecondApiUpdate }
+                    Scopes = { Const.SecondApiWrite, Const.SecondApiRead, Const.SecondApiUpdate },
+                    ApiSecrets = new []{new Secret("secretapi2".Sha256())}
                  },
             };
         }
