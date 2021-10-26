@@ -1,8 +1,10 @@
 ﻿using IdentityServer.AuthServer.Consts;
 using IdentityServer4.Models;
+using IdentityServer4.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace IdentityServer.AuthServer
@@ -36,6 +38,44 @@ namespace IdentityServer.AuthServer
                 new ApiScope(Const.SecondApiRead,"API 2 için okuma izni."),
                 new ApiScope(Const.SecondApiWrite,"API 2 için yazma izni."),
                 new ApiScope(Const.SecondApiUpdate,"API 2 için güncelleme izni."),
+            };
+        }
+
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new List<IdentityResource>()
+            {
+              new IdentityResources.OpenId(),
+              new IdentityResources.Profile()
+            };
+        }
+
+        public static IEnumerable<TestUser> GetUsers()
+        {
+            return new List<TestUser>()
+            {
+                new TestUser
+                {
+                    SubjectId = "1",
+                    Username = "halitakkus",
+                    Password = "pass",
+                    Claims = new List<Claim>()
+                    {
+                        new Claim("given_name","Halit"),
+                        new Claim("family_name","Akkuş")
+                    }
+                },
+                 new TestUser
+                {
+                    SubjectId = "2",
+                    Username = "Absussametakkus",
+                    Password = "pass",
+                    Claims = new List<Claim>()
+                    {
+                        new Claim("given_name","Abdussamet"),
+                        new Claim("family_name","Akkuş")
+                    }
+                }
             };
         }
 
