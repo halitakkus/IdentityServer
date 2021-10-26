@@ -1,4 +1,5 @@
 ﻿using IdentityServer.AuthServer.Consts;
+using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System;
@@ -98,6 +99,20 @@ namespace IdentityServer.AuthServer
                     ClientSecrets = new[] { new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes = {Const.FirstApiRead, Const.FirstApiUpdate, Const.SecondApiWrite, Const.SecondApiUpdate }
+                },
+                 new Client()
+                {
+                    ClientId = "Client1-Mvc",
+                    RequirePkce = false,
+                    ClientName = "Client1 MVC app uygulaması",
+                    ClientSecrets = new[] { new Secret("secret".Sha256())},
+                    AllowedGrantTypes = GrantTypes.Hybrid, // Eğer akış tipi "code" olarak seçilirse. Authorization code grant type karşılık gelmiş olur.   
+                    RedirectUris = new List<string> { "https://localhost:5006/signin-oidc"},
+                    AllowedScopes = 
+                     {
+                         IdentityServerConstants.StandardScopes.OpenId,
+                         IdentityServerConstants.StandardScopes.Profile
+                     }
                 }
             };
         }

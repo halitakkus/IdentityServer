@@ -29,7 +29,6 @@ namespace IdentityServer.Client1.Controllers
             HttpClient httpClient = new HttpClient();
 
             var disco = await httpClient.GetDiscoveryDocumentAsync("https://localhost:5001");
-
             if (disco.IsError)
             {
                 //LOG
