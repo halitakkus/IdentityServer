@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +23,18 @@ namespace IdentityServer.Client1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(opts => {
+                opts.DefaultScheme = "Cookies";
+                opts.DefaultChallengeScheme = "oidc";
+            }).AddCookie("Cookies").AddOpenIdConnect("oidc", opts => {
+                opts.SignInScheme = "Cookies";
+                opts.Authority = "https://localhost:5001";
+                opts.ClientId = "Client1-Mvc";
+                opts.ClientSecret = "secret";
+                opts.ResponseType = "code id_token"; //code => authorization code; id_token => server side uygulamalarda, tokenleri eşleştirmek için kullanılır.
+            });
+
+
             services.AddControllersWithViews();
         }
 
