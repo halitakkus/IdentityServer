@@ -4,9 +4,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace IdentityServer.AuthServer
 {
@@ -108,11 +106,19 @@ namespace IdentityServer.AuthServer
                     ClientSecrets = new[] { new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.Hybrid, // Eğer akış tipi "code" olarak seçilirse. Authorization code grant type karşılık gelmiş olur.   
                     RedirectUris = new List<string> { "https://localhost:5006/signin-oidc"},
-                    AllowedScopes = 
+                   PostLogoutRedirectUris = new List<string> {"https://localhost:5006/signout-callback-oidc"},
+                     AllowedScopes =
                      {
                          IdentityServerConstants.StandardScopes.OpenId,
-                         IdentityServerConstants.StandardScopes.Profile
-                     }
+                         IdentityServerConstants.StandardScopes.Profile,
+                         Const.FirstApiRead,
+                         IdentityServerConstants.StandardScopes.OfflineAccess
+                     },
+                    AccessTokenLifetime = 2*60*60,
+                    AllowOfflineAccess = true, // artık refresh token yayınlanacaktır.
+                    RefreshTokenUsage = TokenUsage.ReUse, // refresh token sürekli kullanılabilir halde.
+                    RefreshTokenExpiration = TokenExpiration.Absolute,
+                    AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now).TotalSeconds //60 gün sonra sona erecektir. 
                 }
             };
         }

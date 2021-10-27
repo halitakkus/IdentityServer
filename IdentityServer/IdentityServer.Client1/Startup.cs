@@ -33,6 +33,9 @@ namespace IdentityServer.Client1
                 opts.ClientSecret = "secret";
                 opts.ResponseType = "code id_token"; //code => authorization code; id_token => server side uygulamalarda, tokenleri eşleştirmek için kullanılır.
                 opts.GetClaimsFromUserInfoEndpoint = true; // Kullanıcının diğer bilgilerini getirir. Varsayılan değer "false" aksi taktirde sadece id değerini getirir.
+                opts.SaveTokens = true;
+                opts.Scope.Add("api1.read");
+                opts.Scope.Add("offline_access"); 
             });
 
 
