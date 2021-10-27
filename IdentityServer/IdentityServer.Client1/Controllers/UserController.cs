@@ -12,6 +12,9 @@ namespace IdentityServer.Client1.Controllers
     {
         public IActionResult Index()
         {
+
+
+
             return View();
         }
     }
