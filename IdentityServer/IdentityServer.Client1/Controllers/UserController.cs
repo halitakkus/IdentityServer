@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,13 @@ namespace IdentityServer.Client1.Controllers
     {
         public IActionResult Index()
         {
-
-
-
             return View();
+        }
+
+        public async Task LogOut()
+        {
+            await HttpContext.SignOutAsync("Cookies"); //IdentityServer4 üzerinden çıkış yapar.
+            await HttpContext.SignOutAsync("oidc"); //Kendi uygulamamızdan çıkış yapar.
         }
     }
 }
