@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace IdentityServer.Client1
 {
@@ -35,9 +31,11 @@ namespace IdentityServer.Client1
                 opts.GetClaimsFromUserInfoEndpoint = true; // Kullanıcının diğer bilgilerini getirir. Varsayılan değer "false" aksi taktirde sadece id değerini getirir.
                 opts.SaveTokens = true;
                 opts.Scope.Add("api1.read");
-                opts.Scope.Add("offline_access"); 
+                opts.Scope.Add("offline_access"); //refresh token almak için.
+                opts.Scope.Add("CountryAndCity");
+                opts.ClaimActions.MapUniqueJsonKey("country", "country");
+                opts.ClaimActions.MapUniqueJsonKey("city", "city");
             });
-
 
             services.AddControllersWithViews();
         }

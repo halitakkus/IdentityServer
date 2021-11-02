@@ -16,7 +16,7 @@ namespace IdentityServer.AuthServer
             {
                 new ApiResource("resource_api1")
                 {
-                    Scopes = { Const.FirstApiWrite, Const.FirstApiRead, Const.FirstApiUpdate } ,
+                    Scopes = { Const.FirstApiWrite, Const.FirstApiRead, Const.FirstApiUpdate },
                     ApiSecrets = new []{new Secret("secretapi1".Sha256())}
                 },
                 new ApiResource("resource_api2")
@@ -45,7 +45,14 @@ namespace IdentityServer.AuthServer
             return new List<IdentityResource>()
             {
               new IdentityResources.OpenId(),
-              new IdentityResources.Profile()
+              new IdentityResources.Profile(),
+              new IdentityResource()
+              {
+                  Name = "CountryAndCity",
+                  DisplayName = "Country and city",
+                  Description = "Kullanıcının ülke ve şehir bilgisi",
+                  UserClaims = new [] { "country", "city" }
+              }
             };
         }
 
@@ -61,7 +68,9 @@ namespace IdentityServer.AuthServer
                     Claims = new List<Claim>()
                     {
                         new Claim("given_name","Halit"),
-                        new Claim("family_name","Akkuş")
+                        new Claim("family_name","Akkuş"),
+                        new Claim("country","Türkiye"),
+                        new Claim("city","Ankara")
                     }
                 },
                  new TestUser
@@ -72,7 +81,9 @@ namespace IdentityServer.AuthServer
                     Claims = new List<Claim>()
                     {
                         new Claim("given_name","Abdussamet"),
-                        new Claim("family_name","Akkuş")
+                        new Claim("family_name","Akkuş"),
+                        new Claim("country","Türkiye"),
+                        new Claim("city","İstanbul")
                     }
                 }
             };
@@ -112,13 +123,15 @@ namespace IdentityServer.AuthServer
                          IdentityServerConstants.StandardScopes.OpenId,
                          IdentityServerConstants.StandardScopes.Profile,
                          Const.FirstApiRead,
-                         IdentityServerConstants.StandardScopes.OfflineAccess
+                         IdentityServerConstants.StandardScopes.OfflineAccess,
+                         "CountryAndCity"
                      },
                     AccessTokenLifetime = 2*60*60,
                     AllowOfflineAccess = true, // artık refresh token yayınlanacaktır.
                     RefreshTokenUsage = TokenUsage.ReUse, // refresh token sürekli kullanılabilir halde.
                     RefreshTokenExpiration = TokenExpiration.Absolute,
-                    AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now).TotalSeconds //60 gün sonra sona erecektir. 
+                    AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now).TotalSeconds, //60 gün sonra sona erecektir. 
+                    RequireConsent = true //artık uygulamalar için onay ekranı çıkacak.
                 }
             };
         }
