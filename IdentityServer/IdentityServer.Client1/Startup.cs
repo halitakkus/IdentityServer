@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityServer.Client1
 {
@@ -22,7 +23,11 @@ namespace IdentityServer.Client1
             services.AddAuthentication(opts => {
                 opts.DefaultScheme = "Cookies";
                 opts.DefaultChallengeScheme = "oidc";
-            }).AddCookie("Cookies").AddOpenIdConnect("oidc", opts => {
+            }).AddCookie("Cookies", 
+             opts => 
+            {
+                opts.AccessDeniedPath = "/Home/AccessDenied";
+            }).AddOpenIdConnect("oidc", opts => {
                 opts.SignInScheme = "Cookies";
                 opts.Authority = "https://localhost:5001";
                 opts.ClientId = "Client1-Mvc";
@@ -33,8 +38,15 @@ namespace IdentityServer.Client1
                 opts.Scope.Add("api1.read");
                 opts.Scope.Add("offline_access"); //refresh token almak için.
                 opts.Scope.Add("CountryAndCity");
+                opts.Scope.Add("Roles");
                 opts.ClaimActions.MapUniqueJsonKey("country", "country");
                 opts.ClaimActions.MapUniqueJsonKey("city", "city");
+                opts.ClaimActions.MapUniqueJsonKey("role", "role");
+
+                opts.TokenValidationParameters = new TokenValidationParameters
+                {
+                    RoleClaimType = "role"
+                };
             });
 
             services.AddControllersWithViews();

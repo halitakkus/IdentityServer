@@ -52,6 +52,13 @@ namespace IdentityServer.AuthServer
                   DisplayName = "Country and city",
                   Description = "Kullanıcının ülke ve şehir bilgisi",
                   UserClaims = new [] { "country", "city" }
+              },
+              new IdentityResource
+              {
+                  Name = "Roles",
+                  DisplayName = "Roles",
+                  Description = "Kullanıcı rolleri",
+                  UserClaims = new [] {"role"}
               }
             };
         }
@@ -70,7 +77,8 @@ namespace IdentityServer.AuthServer
                         new Claim("given_name","Halit"),
                         new Claim("family_name","Akkuş"),
                         new Claim("country","Türkiye"),
-                        new Claim("city","Ankara")
+                        new Claim("city","Ankara"),
+                        new Claim("role", "admin")
                     }
                 },
                  new TestUser
@@ -83,7 +91,8 @@ namespace IdentityServer.AuthServer
                         new Claim("given_name","Abdussamet"),
                         new Claim("family_name","Akkuş"),
                         new Claim("country","Türkiye"),
-                        new Claim("city","İstanbul")
+                        new Claim("city","İstanbul"),
+                        new Claim("role", "customer")
                     }
                 }
             };
@@ -107,7 +116,13 @@ namespace IdentityServer.AuthServer
                     ClientName = "Client 2 app uygulaması",
                     ClientSecrets = new[] { new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = {Const.FirstApiRead, Const.FirstApiUpdate, Const.SecondApiWrite, Const.SecondApiUpdate }
+                    AllowedScopes = 
+                     {
+                         Const.FirstApiRead, 
+                         Const.FirstApiUpdate,
+                         Const.SecondApiWrite,
+                         Const.SecondApiUpdate
+                     }
                 },
                  new Client()
                 {
@@ -124,7 +139,33 @@ namespace IdentityServer.AuthServer
                          IdentityServerConstants.StandardScopes.Profile,
                          Const.FirstApiRead,
                          IdentityServerConstants.StandardScopes.OfflineAccess,
-                         "CountryAndCity"
+                         "CountryAndCity",
+                         "Roles"
+                     },
+                    AccessTokenLifetime = 2*60*60,
+                    AllowOfflineAccess = true, // artık refresh token yayınlanacaktır.
+                    RefreshTokenUsage = TokenUsage.ReUse, // refresh token sürekli kullanılabilir halde.
+                    RefreshTokenExpiration = TokenExpiration.Absolute,
+                    AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now).TotalSeconds, //60 gün sonra sona erecektir. 
+                    RequireConsent = true //artık uygulamalar için onay ekranı çıkacak.
+                },
+                  new Client()
+                {
+                    ClientId = "Client2-Mvc",
+                    RequirePkce = false,
+                    ClientName = "Client 2 MVC app uygulaması",
+                    ClientSecrets = new[] { new Secret("secret".Sha256())},
+                    AllowedGrantTypes = GrantTypes.Hybrid, // Eğer akış tipi "code" olarak seçilirse. Authorization code grant type karşılık gelmiş olur.   
+                    RedirectUris = new List<string> { "https://localhost:5011/signin-oidc"},
+                   PostLogoutRedirectUris = new List<string> {"https://localhost:5011/signout-callback-oidc"},
+                     AllowedScopes =
+                     {
+                         IdentityServerConstants.StandardScopes.OpenId,
+                         IdentityServerConstants.StandardScopes.Profile,
+                         Const.FirstApiRead,
+                         IdentityServerConstants.StandardScopes.OfflineAccess,
+                         "CountryAndCity",
+                         "Roles"
                      },
                     AccessTokenLifetime = 2*60*60,
                     AllowOfflineAccess = true, // artık refresh token yayınlanacaktır.

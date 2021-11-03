@@ -66,5 +66,12 @@ namespace IdentityServer.Client1.Controllers
 
             return View(products);
         }
+
+        public IActionResult AccessDenied(string ReturnUrl)
+        {
+            ViewBag.url = ReturnUrl;
+
+            return View();
+        }
     }
 }
