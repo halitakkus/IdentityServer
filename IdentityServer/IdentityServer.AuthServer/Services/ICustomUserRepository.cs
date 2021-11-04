@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServer.AuthServer.Services
 {
-    internal interface ICustomUserRepository
+    public interface ICustomUserRepository
     {
         /// <summary>
         /// Email ve şifre doğrulama işlemi.
