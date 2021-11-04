@@ -44,6 +44,7 @@ namespace IdentityServer.AuthServer
         {
             return new List<IdentityResource>()
             {
+                new IdentityResources.Email(),
               new IdentityResources.OpenId(),
               new IdentityResources.Profile(),
               new IdentityResource()
@@ -116,9 +117,9 @@ namespace IdentityServer.AuthServer
                     ClientName = "Client 2 app uygulaması",
                     ClientSecrets = new[] { new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = 
+                    AllowedScopes =
                      {
-                         Const.FirstApiRead, 
+                         Const.FirstApiRead,
                          Const.FirstApiUpdate,
                          Const.SecondApiWrite,
                          Const.SecondApiUpdate
