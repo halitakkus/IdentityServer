@@ -1,11 +1,8 @@
 ﻿using IdentityServer.AuthServer.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace IdentityServer.AuthServer.Services
+namespace IdentityServer.AuthServer.Repository
 {
     public class CustomUserRepository : ICustomUserRepository
     {

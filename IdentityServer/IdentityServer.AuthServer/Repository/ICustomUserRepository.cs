@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IdentityServer.AuthServer.Services
+namespace IdentityServer.AuthServer.Repository
 {
     public interface ICustomUserRepository
     {
