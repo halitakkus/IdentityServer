@@ -29,9 +29,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/oidc-client/dist/oidc-client.min.js"
-            ]
+            "scripts": ["node_modules/oidc-client/dist/oidc-client.min.js"]
           },
           "configurations": {
             "production": {

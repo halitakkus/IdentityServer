@@ -184,6 +184,7 @@ namespace IdentityServer.AuthServer
                       ClientName = "Js Client (Angular)",
                       AllowedScopes =
                      {
+                         IdentityServerConstants.StandardScopes.Email,
                          IdentityServerConstants.StandardScopes.OpenId,
                          IdentityServerConstants.StandardScopes.Profile,
                          Const.FirstApiRead,

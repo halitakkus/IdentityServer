@@ -17,7 +17,7 @@ namespace IdentityServer.AuthServer.Services
 
         public CustomProfileService(ICustomUserRepository customUserRepository)
         {
-            _customUserRepository = _customUserRepository;
+            _customUserRepository = customUserRepository;
         }
 
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
