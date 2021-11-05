@@ -194,7 +194,7 @@ namespace IdentityServer.AuthServer
                      },
                       RedirectUris = {"http://localhost:4200/callback"},
                       AllowedCorsOrigins = {"http://localhost:4200"},
-                      PostLogoutRedirectUris = {"https://localhost:4200"},
+                      PostLogoutRedirectUris = {"http://localhost:4200"},
                       AllowedGrantTypes = GrantTypes.Code // Authorization code grant akış tipini işaret eder.
                   }
             };

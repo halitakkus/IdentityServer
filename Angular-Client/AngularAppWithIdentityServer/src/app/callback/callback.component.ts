@@ -18,7 +18,7 @@ export class CallbackComponent implements OnInit {
       this.router.navigateByUrl('/')
     })
     .catch((err)=> {
-      alert(err)
+      console.log(err)
     })
 
   }
