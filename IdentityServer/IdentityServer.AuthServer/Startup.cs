@@ -1,4 +1,5 @@
 using IdentityServer.AuthServer.Models;
+using IdentityServer.AuthServer.Repository;
 using IdentityServer.AuthServer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,7 +40,8 @@ namespace IdentityServer.AuthServer
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 //.AddTestUsers(Config.GetUsers().ToList())
-                .AddDeveloperSigningCredential();
+                .AddDeveloperSigningCredential()
+                .AddProfileService<CustomProfileService>();
                 
             services.AddControllersWithViews();
         }

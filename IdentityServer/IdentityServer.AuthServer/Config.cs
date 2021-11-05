@@ -136,6 +136,7 @@ namespace IdentityServer.AuthServer
                    PostLogoutRedirectUris = new List<string> {"https://localhost:5006/signout-callback-oidc"},
                      AllowedScopes =
                      {
+                         IdentityServerConstants.StandardScopes.Email,
                          IdentityServerConstants.StandardScopes.OpenId,
                          IdentityServerConstants.StandardScopes.Profile,
                          Const.FirstApiRead,
@@ -155,12 +156,13 @@ namespace IdentityServer.AuthServer
                     ClientId = "Client2-Mvc",
                     RequirePkce = false,
                     ClientName = "Client 2 MVC app uygulaması",
-                    ClientSecrets = new[] { new Secret("secret".Sha256())},
+                    ClientSecrets = new[] { new Secret("secret".Sha256())}, // spa ve mobil app ler üzerinde kullanılmaz, güvenlik açığına sebebiyet verir. Spa lar tarayıcı üzerinde çalışır.
                     AllowedGrantTypes = GrantTypes.Hybrid, // Eğer akış tipi "code" olarak seçilirse. Authorization code grant type karşılık gelmiş olur.   
                     RedirectUris = new List<string> { "https://localhost:5011/signin-oidc"},
                    PostLogoutRedirectUris = new List<string> {"https://localhost:5011/signout-callback-oidc"},
                      AllowedScopes =
                      {
+                         IdentityServerConstants.StandardScopes.Email,
                          IdentityServerConstants.StandardScopes.OpenId,
                          IdentityServerConstants.StandardScopes.Profile,
                          Const.FirstApiRead,
@@ -174,7 +176,26 @@ namespace IdentityServer.AuthServer
                     RefreshTokenExpiration = TokenExpiration.Absolute,
                     AbsoluteRefreshTokenLifetime = (int)(DateTime.Now.AddDays(60) - DateTime.Now).TotalSeconds, //60 gün sonra sona erecektir. 
                     RequireConsent = true //artık uygulamalar için onay ekranı çıkacak.
-                }
+                },
+                  new Client
+                  {
+                      ClientId = "js-client",
+                      RequireClientSecret = false, // güvenlik açığına sebebiyet vermesin diye "false" seçildi.
+                      ClientName = "Js Client (Angular)",
+                      AllowedScopes =
+                     {
+                         IdentityServerConstants.StandardScopes.OpenId,
+                         IdentityServerConstants.StandardScopes.Profile,
+                         Const.FirstApiRead,
+                         IdentityServerConstants.StandardScopes.OfflineAccess,
+                         "CountryAndCity",
+                         "Roles"
+                     },
+                      RedirectUris = {"http://localhost:4200/callback"},
+                      AllowedCorsOrigins = {"http://localhost:4200"},
+                      PostLogoutRedirectUris = {"https://localhost:4200"},
+                      AllowedGrantTypes = GrantTypes.Code // Authorization code grant akış tipini işaret eder.
+                  }
             };
         }
     }
