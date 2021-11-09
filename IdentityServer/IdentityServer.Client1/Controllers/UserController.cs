@@ -7,7 +7,6 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -95,18 +94,12 @@ namespace IdentityServer.Client1.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult AdminAction()
         {
-
-
-
             return View();
         }
 
         [Authorize(Roles = "customer")]
         public IActionResult CustomerAction()
         {
-
-
-
             return View();
         }
     }
